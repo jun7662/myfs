@@ -222,12 +222,14 @@ static int xmp_rmdir(const char *path)
 
 static int xmp_symlink(const char *from, const char *to)
 {
-  char read_fullpath[PATH_MAX];
+  char read_fullpaths[2][PATH_MAX];
   char write_fullpaths[2][PATH_MAX];
   int res;
 
-  sprintf(read_fullpath, "%s%s",
-      rand() % 2 == 0 ? global_context.driveA : global_context.driveB, from);
+ //sprintf(read_fullpath, "%s%s",rand() % 2 == 0 ? global_context.driveA : global_context.driveB, from);
+
+  sprintf(read_fullpaths[0], "%s%s", global_context.driveA, from);
+  sprintf(read_fullpaths[1], "%s%s", global_context.driveB, from);
 
   sprintf(write_fullpaths[0], "%s%s", global_context.driveA, to);
   sprintf(write_fullpaths[1], "%s%s", global_context.driveB, to);
