@@ -235,7 +235,7 @@ static int xmp_symlink(const char *from, const char *to)
   sprintf(write_fullpaths[1], "%s%s", global_context.driveB, to);
 
   for (int i = 0; i < 2; ++i) {
-    res = symlink(read_fullpath, write_fullpaths[i]);
+    res = symlink(read_fullpaths[i], write_fullpaths[i]);
     if (res == -1)
       return -errno;
   }
@@ -245,18 +245,18 @@ static int xmp_symlink(const char *from, const char *to)
 
 static int xmp_rename(const char *from, const char *to)
 {
-  char read_fullpath[PATH_MAX];
+  char read_fullpaths[2][PATH_MAX];
   char write_fullpaths[2][PATH_MAX];
   int res;
 
-  sprintf(read_fullpath, "%s%s",
-      rand() % 2 == 0 ? global_context.driveA : global_context.driveB, from);
+  sprintf(read_fullpaths[0], "%s%s", global_context.driveA, from);
+  sprintf(read_fullpaths[1], "%s%s", global_context.driveB, from);
 
   sprintf(write_fullpaths[0], "%s%s", global_context.driveA, to);
   sprintf(write_fullpaths[1], "%s%s", global_context.driveB, to);
 
   for (int i = 0; i < 2; ++i) {
-    res = rename(read_fullpath, write_fullpaths[i]);
+    res = rename(read_fullpaths[i], write_fullpaths[i]);
     if (res == -1)
       return -errno;
   }
@@ -560,7 +560,7 @@ static int xmp_getxattr(const char *path, const char *name, char *value,
   sprintf(fullpath, "%s%s",
       rand() % 2 == 0 ? global_context.driveA : global_context.driveB, path);
 
-  int res = lgetxattr(fullpath, name, value, size);
+  int res = lgetxattr(fullpath, name,																			 value, size);
   if (res == -1)
     return -errno;
   return res;
